@@ -1,107 +1,74 @@
-# TP Comptage de Mots — Python & Hadoop MapReduce
+# Word Count: Python and Hadoop MapReduce
 
-Comparaison de différentes approches pour le comptage de mots dans un fichier texte, réalisée dans le cadre d'un travail pratique sur le traitement de données (M2, Bases de Données).
+Lab project comparing several ways of counting word occurrences in a text file.
 
-## Objectif
+## Goal
 
-Implémenter et étudier trois méthodes de comptage de mots :
+Three methods are implemented and compared:
 
-- **Python séquentiel** : comptage des occurrences à l'aide d'un dictionnaire.
-- **Pseudo-MapReduce** : simulation des étapes Map, Shuffle et Reduce en Python.
-- **Hadoop MapReduce** : utilisation d'Apache Hadoop pour effectuer le traitement des données.
+1. Plain Python, counting occurrences with a dictionary.
+2. Pseudo-MapReduce, simulating the Map, Shuffle and Reduce steps in Python.
+3. Hadoop MapReduce, running the same job on Apache Hadoop.
 
-Le projet permet de découvrir le paradigme MapReduce et d'étudier les différences entre un traitement classique et une approche conçue pour le traitement distribué.
+The point is to get familiar with the MapReduce model and to see how it behaves
+compared to a straightforward sequential implementation.
 
-## Technologies
+## Requirements
 
 - Python 3.10
 - Jupyter Notebook
-- Pandas
-- Matplotlib
-- Apache Hadoop
-- Java
-- Ubuntu Linux
+- pandas, matplotlib
+- Java and Apache Hadoop (for the Hadoop part only)
 
-## Structure du projet
+Tested on Ubuntu 22.04.
 
-```text
-TP_Comptage_Mots/
-├── README.md
-├── .gitignore
-├── mots.txt
-└── TP_Comptage_Mots.ipynb
-```
-
-- `mots.txt` : fichier texte utilisé comme jeu de données initial (un mot par ligne, avec répétitions).
-- `TP_Comptage_Mots.ipynb` : notebook contenant les explications, les implémentations, les tests et les expériences.
-- `.gitignore` : fichiers et dossiers exclus du suivi Git (environnement virtuel, fichiers de test générés, checkpoints Jupyter).
-
-Le dossier `fichiers_test/`, utilisé pour les mesures de performance, est généré automatiquement par le notebook et n'est pas versionné.
-
-## Installation
-
-### Prérequis
-
-- Python 3
-- pip
-- Git
-- Jupyter Notebook
-
-Java et Apache Hadoop sont nécessaires pour exécuter la partie Hadoop.
-
-### 1. Cloner le dépôt
+## Setup
 
 ```bash
 git clone https://github.com/salahsahnoun/TP_Comptage_Mots.git
 cd TP_Comptage_Mots
-```
 
-### 2. Créer un environnement virtuel
-
-```bash
 python3 -m venv .venv
 source .venv/bin/activate
+pip install jupyter pandas matplotlib
 ```
 
-### 3. Installer les dépendances
-
-```bash
-python -m pip install --upgrade pip
-python -m pip install jupyter pandas matplotlib
-```
-
-### 4. Lancer le notebook
+Then start Jupyter and open the notebook:
 
 ```bash
 jupyter notebook
 ```
 
-Ouvrir ensuite le fichier `TP_Comptage_Mots.ipynb` et exécuter les cellules dans l'ordre pour générer les données, lancer les implémentations et effectuer les expériences.
+Run the cells in order. The benchmark section regenerates the test files, so you
+can run it from scratch.
 
-## Méthodes étudiées
+## Files
 
-### Python séquentiel
+```text
+TP_Comptage_Mots/
+├── TP_Comptage_Mots.ipynb   # code, experiments and comments
+├── mots.txt                 # input file, one word per line
+├── fichiers_test/           # larger files used for the benchmarks
+├── .gitignore
+└── README.md
+```
 
-Comptage des occurrences de chaque mot à l'aide d'un dictionnaire Python.
+The files in `fichiers_test/` are produced by duplicating `mots.txt` with factors
+1, 10, 100, 1000 and 5000, which gives inputs from 20 up to 100 000 lines.
 
-### Pseudo-MapReduce
+## Methods
 
-Simulation des trois étapes principales :
+**Plain Python** reads the whole file, splits it and increments a counter per word.
 
-1. **Map** : transformation des mots en paires `(mot, 1)`.
-2. **Shuffle** : regroupement des valeurs par mot.
-3. **Reduce** : addition des occurrences.
+**Pseudo-MapReduce** splits the work into the three usual steps: `map` turns each
+word into a `(word, 1)` pair, `shuffle` groups the values by key, `reduce` sums
+them. Everything still runs on a single machine, but the structure matches what
+Hadoop does.
 
-### Hadoop MapReduce
+**Hadoop MapReduce** runs the job through Hadoop.
 
-Exécution du comptage de mots avec le modèle MapReduce sur Apache Hadoop.
+## Benchmarks
 
-## Expérimentation
-
-Le notebook génère plusieurs fichiers de tailles différentes (de 20 à 100 000 lignes) par duplication du jeu de données initial, mesure les temps d'exécution des méthodes et compare leurs résultats.
-
-Le protocole expérimental, les mesures et leur interprétation sont présentés dans le notebook.
-
-## Auteur
-
-Projet académique consacré au comptage de mots et à l'étude du paradigme MapReduce.
+Execution times for both Python implementations are measured on each input size
+and plotted at the end of the notebook. Numbers and comments are in the notebook
+itself rather than here, since they depend on the machine.
