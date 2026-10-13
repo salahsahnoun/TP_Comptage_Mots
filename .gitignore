@@ -12,3 +12,6 @@ __pycache__/
 
 # Fichiers Hadoop générés localement
 hadoop-logs/
+
+# Fichiers temporaires Spark
+spark_tmp/
