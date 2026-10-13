@@ -10,8 +10,5 @@ __pycache__/
 # Fichiers temporaires Jupyter
 .ipynb_checkpoints/
 
-# Fichiers de test générés
-fichiers_test/
-
 # Fichiers Hadoop générés localement
 hadoop-logs/
