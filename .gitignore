@@ -1,0 +1,17 @@
+# Environnement Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Configuration locale
+.env
+
+# Fichiers temporaires Jupyter
+.ipynb_checkpoints/
+
+# Fichiers de test générés
+fichiers_test/
+
+# Fichiers Hadoop générés localement
+hadoop-logs/
